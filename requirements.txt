@@ -1,0 +1,9 @@
+streamlit
+streamlit-pdf-viewer
+python-dotenv
+pandas
+tqdm
+matplotlib
+# requests
+pyocr
+PyPDF2

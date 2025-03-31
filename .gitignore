@@ -1,0 +1,5 @@
+trash/*
+.env
+venv/*
+trash_good/*
+trash_bad/*
