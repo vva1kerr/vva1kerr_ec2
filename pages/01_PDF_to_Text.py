@@ -7,6 +7,7 @@ from pdf2image import convert_from_bytes
 # import tempfile
 import PyPDF2
 # import time
+# import pytesseract
 from src.auth.auth_utils import check_login
 if not check_login():
     st.stop()
