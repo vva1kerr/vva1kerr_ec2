@@ -12,7 +12,7 @@ def verify_user(username: str, password: str, database: str) -> Tuple[bool, Opti
     Returns (success, error_message)
     """
     try:
-        con = sqlite3.connect(f"data/{database}.db")
+        con = sqlite3.connect(f"database/{database}.db")
         cur = con.cursor()
         
         # Get user from database
