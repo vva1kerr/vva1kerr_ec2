@@ -15,9 +15,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# If already logged in, redirect to home
-if 'logged_in' in st.session_state and st.session_state.logged_in:
-    st.switch_page("main.py")
+# # If already logged in, redirect to home
+# if 'logged_in' in st.session_state and st.session_state.logged_in:
+#     st.switch_page("main.py")
     
 # Initialize OCR
 try:
