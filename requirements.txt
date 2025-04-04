@@ -7,4 +7,5 @@ matplotlib
 # requests
 pyocr
 PyPDF2
+pdf2image
 pytesseract
