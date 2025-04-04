@@ -7,7 +7,9 @@ from pdf2image import convert_from_bytes
 # import tempfile
 import PyPDF2
 # import time
-
+from src.auth.auth_utils import check_login
+if not check_login():
+    st.stop()
 # Set page config
 st.set_page_config(
     page_title="OCR Tool",
@@ -15,9 +17,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# # If already logged in, redirect to home
-# if 'logged_in' in st.session_state and st.session_state.logged_in:
-#     st.switch_page("main.py")
+ 
     
 # Initialize OCR
 try:
