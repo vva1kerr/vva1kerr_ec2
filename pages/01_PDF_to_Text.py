@@ -1,16 +1,14 @@
 import streamlit as st
-import pyocr
-import pyocr.builders
+import pytesseract
 from PIL import Image
 import io
 from pdf2image import convert_from_bytes
-# import tempfile
 import PyPDF2
-# import time
-# import pytesseract
 from src.auth.auth_utils import check_login
+
 if not check_login():
     st.stop()
+    
 # Set page config
 st.set_page_config(
     page_title="OCR Tool",
@@ -18,23 +16,10 @@ st.set_page_config(
     layout="wide"
 )
 
- 
-    
-# Initialize OCR
-try:
-    tools = pyocr.get_available_tools()
-    if len(tools) == 0:
-        st.error("No OCR tools found. Please install Tesseract-OCR.")
-    else:
-        tool = tools[0]
-        st.success(f"Using OCR tool: {tool.get_name()}")
-except Exception as e:
-    st.error(f"Error initializing OCR: {str(e)}")
-
 # Title and description
 st.title("📝 OCR Tool")
 st.markdown("""
-This tool uses PyOCR to extract text from images and PDFs. Upload a file and get the extracted text.
+This tool uses Tesseract OCR to extract text from images and PDFs. Upload a file and get the extracted text.
 """)
 
 # File uploader
@@ -101,12 +86,8 @@ if uploaded_file is not None:
                                 status_text.text("Processing image with OCR...")
                                 progress_bar.progress(50)
                                 
-                                # Extract text from the image
-                                text = tool.image_to_string(
-                                    image,
-                                    lang='eng',
-                                    builder=pyocr.builders.TextBuilder()
-                                )
+                                # Extract text from the image using pytesseract
+                                text = pytesseract.image_to_string(image, lang='eng')
                                 
                                 # Update progress
                                 status_text.text("Finalizing results...")
@@ -147,11 +128,7 @@ if uploaded_file is not None:
                                     try:
                                         if image.mode != 'RGB':
                                             image = image.convert('RGB')
-                                        text = tool.image_to_string(
-                                            image,
-                                            lang='eng',
-                                            builder=pyocr.builders.TextBuilder()
-                                        )
+                                        text = pytesseract.image_to_string(image, lang='eng')
                                         all_text.append(f"=== Page {i} ===\n{text}\n")
                                     except Exception as e:
                                         all_text.append(f"=== Page {i} ===\nError processing page: {str(e)}\n")
@@ -184,7 +161,7 @@ if uploaded_file is not None:
             st.error(f"Error processing PDF: {str(e)}")
             st.info("Please make sure the PDF file is not corrupted and try again.")
     else:
-        # Handle image files (existing code)
+        # Handle image files
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=True)
         
@@ -204,11 +181,7 @@ if uploaded_file is not None:
                 status_text.text("Processing image with OCR...")
                 progress_bar.progress(50)
                 
-                text = tool.image_to_string(
-                    image,
-                    lang='eng',
-                    builder=pyocr.builders.TextBuilder()
-                )
+                text = pytesseract.image_to_string(image, lang='eng')
                 
                 # Update progress
                 status_text.text("Finalizing results...")
